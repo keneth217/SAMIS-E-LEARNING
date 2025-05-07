@@ -1,10 +1,9 @@
 <template>
-  <div class="min-h-screen flex flex-col md:flex-row">
-    <div :class="isSidebarCollapsed ? 'w-16' : 'w-60'" class="sidebar-content  text-white hidden md:block">
+  <div class="min-h-screen flex flex-col md:flex-row bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+    <div :class="isSidebarCollapsed ? 'w-16' : 'w-60'" class="sidebar-content bg-blue-800 dark:bg-gray-800 text-white hidden md:block">
       <div class="mt-20">
-        <hr class="border-0 border-t border-white"/>
+        <hr class="border-0 border-t border-white dark:border-gray-600"/>
       </div>
-
       <ul class="sidebar-lists">
         <li
             v-for="link in links"
@@ -30,11 +29,11 @@
                 'max-h-0 opacity-0': !link.isOpen,
                 'max-h-40 opacity-100': link.isOpen,
               }"
-              class="transition-all duration-300 ease-out overflow-auto bg-blue-100">
+              class="transition-all duration-300 ease-out overflow-auto bg-blue-100 dark:bg-gray-700">
             <li
                 v-for="child in link.children"
                 :key="child.label"
-                class="text-sm pl-8 py-2 hover:bg-gray-400 cursor-pointer flex items-center overflow-auto"
+                class="text-sm pl-8 py-2 hover:bg-gray-400 dark:hover:bg-gray-600 cursor-pointer flex items-center overflow-auto"
                 @click="navigateTo(child.route)">
               <component
                   :is="iconComponents[child.icon]"
@@ -49,66 +48,61 @@
 
     <div class="flex-1 flex flex-col transition-all duration-300 w-full">
       <header
-          class="header-container"
+          class="header-container bg-white dark:bg-gray-800 shadow"
           :class="{
-        'md:left-16 md:w-[calc(100%-4rem)]': isSidebarCollapsed,
-        'md:left-60 md:w-[calc(100%-15rem)]': !isSidebarCollapsed
-      }"
+            'md:left-16 md:w-[calc(100%-4rem)]': isSidebarCollapsed,
+            'md:left-60 md:w-[calc(100%-15rem)]': !isSidebarCollapsed
+          }"
       >
         <div class="container flex items-center justify-between h-full px-4">
           <div class="flex items-center gap-4">
-            <!-- Hamburger menu (hidden on mobile) -->
-            <div class="text-2xl text-black cursor-pointer hidden md:block" @click="toggleSidebar">
-              <Bars3Icon class="h-6 w-6 mr-8 text-black cursor-pointer"/>
+            <div class="text-2xl cursor-pointer hidden md:block" @click="toggleSidebar">
+              <Bars3Icon class="h-6 w-6 mr-8 text-black dark:text-white cursor-pointer"/>
             </div>
-            <!-- School name - always visible -->
-            <p class="text-sm md:text-xl text-black font-bold font-serif text-center capitalize">
+            <p class="text-sm md:text-xl font-bold font-serif text-center capitalize text-black dark:text-white">
               SAMIS
             </p>
           </div>
-          <div class="flex items-center">
-            <!-- User dropdown -->
+          <div class="flex items-center gap-6">
+            <ThemeToggle/>
             <div
-                class="text-white md:text-black flex items-center cursor-pointer relative mr-4 md:mr-20"
+                class="flex items-center cursor-pointer relative mr-4 md:mr-20 text-black dark:text-white"
                 @click="toggleUserDropdown"
                 @mouseenter="isDesktop && (isUserDropdownOpen = true)"
                 @mouseleave="isDesktop && (isUserDropdownOpen = false)"
             >
-              <p class="capitalize text-xl ">KENETH</p>
+              <p class="capitalize text-xl">KENETH</p>
               <ChevronDownIcon
-                  class="h-4 w-4 text-white md:text-blue-900 cursor-pointer text-bold font-bold md:ml-4"
+                  class="h-4 w-4 cursor-pointer font-bold md:ml-4 text-blue-900 dark:text-white"
                   :class="{ 'rotate-180': isUserDropdownOpen }"
               />
-
               <ul
                   :class="{
-                  'max-h-0 opacity-0': !isUserDropdownOpen,
-                  'max-h-80 opacity-200': isUserDropdownOpen,
-                }"
-                  class="user-profile-dropdown"
+                    'max-h-0 opacity-0': !isUserDropdownOpen,
+                    'max-h-80 opacity-200': isUserDropdownOpen,
+                  }"
+                  class="user-profile-dropdown bg-white dark:bg-gray-700 shadow-lg"
               >
-                <li class="profile-list" @click="navigateTo('/profile')">
+                <li class="profile-list hover:bg-gray-100 dark:hover:bg-gray-600" @click="navigateTo('/profile')">
                   Profile
                 </li>
-                <li class="profile-list" @click="navigateTo('/dash/setting')">
+                <li class="profile-list hover:bg-gray-100 dark:hover:bg-gray-600" @click="navigateTo('/dash/setting')">
                   Settings
                 </li>
-
                 <hr class="border-0 border-t border-gray-500"/>
-
-                <li class="profile-list" @click="navigateTo('/setting')">
+                <li class="profile-list hover:bg-gray-100 dark:hover:bg-gray-600" @click="navigateTo('/setting')">
                   Terms Of Service
                 </li>
-                <li class="profile-list" @click="navigateTo('/setting')">
+                <li class="profile-list hover:bg-gray-100 dark:hover:bg-gray-600" @click="navigateTo('/setting')">
                   Privacy and Policy
                 </li>
-                <li class="profile-list" @click="navigateTo('/setting')">
+                <li class="profile-list hover:bg-gray-100 dark:hover:bg-gray-600" @click="navigateTo('/setting')">
                   System User Manual
                 </li>
                 <div class="mt-2">
                   <hr class="border-0 border-t border-gray-500"/>
                 </div>
-                <li class="profile-list" @click="handleLogout">
+                <li class="profile-list hover:bg-gray-100 dark:hover:bg-gray-600" @click="handleLogout">
                   LogOut
                 </li>
               </ul>
@@ -117,26 +111,23 @@
         </div>
       </header>
 
-      <!-- Main content - adjusted to match header behavior -->
       <div
-          class="main-content "
+          class="main-content bg-gray-100 dark:bg-gray-900"
           :class="{
-        'md:left-16 md:w-[calc(100%-4rem)]': isSidebarCollapsed,
-        'md:left-60 md:w-[calc(100%-15rem)]': !isSidebarCollapsed
-      }"
+            'md:left-16 md:w-[calc(100%-4rem)]': isSidebarCollapsed,
+            'md:left-60 md:w-[calc(100%-15rem)]': !isSidebarCollapsed
+          }"
       >
         <div class="container px-4 py-4">
-
           <router-view v-slot="{ Component }">
             <transition name="fade" mode="out-in">
               <component :is="Component"/>
             </transition>
           </router-view>
         </div>
-
       </div>
     </div>
-    <div class="fixed bottom-0 left-0 right-0 bg-blue-500 text-white md:hidden z-10 mt-10">
+    <div class="fixed bottom-0 left-0 right-0 bg-blue-500 dark:bg-gray-800 text-white md:hidden z-10 mt-10">
       <div class="flex flex-col">
         <div class="flex justify-around py-2">
           <div
@@ -163,16 +154,15 @@
             <span class="text-xs mt-1">{{ isMobileMenuOpen ? 'Less' : 'More' }}</span>
           </div>
         </div>
-
         <div
-            class="bg-blue-400 transition-all duration-300 overflow-hidden"
+            class="bg-blue-400 dark:bg-gray-700 transition-all duration-300 overflow-hidden"
             :class="isMobileMenuOpen ? 'max-h-screen py-2' : 'max-h-0'"
         >
           <ul class="px-4">
             <li
                 v-for="(link, index) in hiddenMobileLinks"
                 :key="'hidden-'+index"
-                class="py-3 border-b border-white"
+                class="py-3 border-b border-white dark:border-gray-600"
                 @click="handleMobileLinkClick(link)"
             >
               <div class="flex items-center">
@@ -190,9 +180,10 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
-import {ref, computed, onMounted, onBeforeUnmount} from "vue";
-import {useRouter, useRoute} from "vue-router";
+import { ref, computed, onMounted, onBeforeUnmount, type Component } from 'vue';
+import { useRouter, useRoute, type RouteLocationRaw } from 'vue-router';
 import {
   Bars3Icon,
   HomeIcon,
@@ -210,24 +201,29 @@ import {
   ClipboardDocumentListIcon,
   FolderMinusIcon,
   SignalIcon
-} from "@heroicons/vue/24/outline";
+} from '@heroicons/vue/24/outline';
+import ThemeToggle from '@/views/ThemeToggle.vue';
 
-import 'vue-toast-notification/dist/theme-sugar.css';
-import {useToast} from "vue-toast-notification";
-import LoadingBar from "@/views/LoadingBar.vue";
+interface NavLink {
+  label: string;
+  icon: keyof typeof iconComponents;
+  route: string;
+  isOpen: boolean;
+  children?: NavLink[];
+}
 
-const isSidebarCollapsed = ref(false);
-const isUserDropdownOpen = ref(false);
-const isNewDropdownOpen = ref(false);
-const isMobileMenuOpen = ref(false);
-const isDesktop = ref(window.innerWidth >= 768)
-const iconComponents = {
+const isSidebarCollapsed = ref<boolean>(false);
+const isUserDropdownOpen = ref<boolean>(false);
+const isNewDropdownOpen = ref<boolean>(false);
+const isMobileMenuOpen = ref<boolean>(false);
+const isDesktop = ref<boolean>(window.innerWidth >= 768);
+
+const iconComponents: Record<string, Component> = {
   HomeIcon,
   AcademicCapIcon,
   CurrencyDollarIcon,
   MapIcon,
   ChartPieIcon,
-
   UserCircleIcon,
   NewspaperIcon,
   CogIcon,
@@ -239,72 +235,51 @@ const iconComponents = {
   FolderMinusIcon
 };
 
-
-const $toast = useToast();
-const handleLogout = () => {
-
+const handleLogout = (): void => {
+  // Logout implementation
 };
-onMounted(() => {
-  const handleResize = () => {
-    isDesktop.value = window.innerWidth >= 768;
-  };
-  window.addEventListener('resize', handleResize);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize);
-});
-
-interface Link {
-  label: string;
-  icon: keyof typeof iconComponents;
-  route: string;
-  isOpen: boolean;
-  children?: Link[];
-}
-
-const links = ref<Link[]>([
-  {
-    label: "Dashboard",
-    icon: "HomeIcon",
-    route: "/admin",
-    isOpen: false,
-  },
-  {
-    label: "Courses",
-    icon: "AcademicCapIcon",
-    route: "/admin/courses",
-    isOpen: false,
-  },
-
-]);
-
-const visibleMobileLinks = computed(() => links.value.slice(0, 4));
-const hiddenMobileLinks = computed(() => links.value.slice(4));
 
 const router = useRouter();
 const route = useRoute();
 
-const toggleSidebar = () => {
+const links = ref<NavLink[]>([
+  {
+    label: 'Dashboard',
+    icon: 'HomeIcon',
+    route: '/admin',
+    isOpen: false,
+  },
+  {
+    label: 'Courses',
+    icon: 'AcademicCapIcon',
+    route: '/admin/courses',
+    isOpen: false,
+  },
+]);
+
+const visibleMobileLinks = computed<NavLink[]>(() => links.value.slice(0, 4));
+const hiddenMobileLinks = computed<NavLink[]>(() => links.value.slice(4));
+
+const toggleSidebar = (): void => {
   isSidebarCollapsed.value = !isSidebarCollapsed.value;
 };
 
-const toggleUserDropdown = () => {
+const toggleUserDropdown = (): void => {
   isUserDropdownOpen.value = !isUserDropdownOpen.value;
 };
 
-const toggleNewItemsDropdown = () => {
+const toggleNewItemsDropdown = (): void => {
   isNewDropdownOpen.value = !isNewDropdownOpen.value;
 };
 
-const toggleMobileMenu = () => {
+const toggleMobileMenu = (): void => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
-const handleLinkClick = (link: Link) => {
+const handleLinkClick = (link: NavLink): void => {
   if (link.children) {
     link.isOpen = !link.isOpen;
-    if (!link.route || link.route === "#") {
+    if (!link.route || link.route === '#') {
       navigateTo(link.children[0].route);
     }
   } else {
@@ -312,7 +287,7 @@ const handleLinkClick = (link: Link) => {
   }
 };
 
-const handleMobileLinkClick = (link: Link) => {
+const handleMobileLinkClick = (link: NavLink): void => {
   if (link.children) {
     navigateTo(link.children[0].route);
   } else {
@@ -321,106 +296,96 @@ const handleMobileLinkClick = (link: Link) => {
   isMobileMenuOpen.value = false;
 };
 
-const navigateTo = (routePath: string) => {
+const navigateTo = (routePath: RouteLocationRaw): void => {
   router.push(routePath);
 };
 
-const isLinkActive = (link: Link): boolean => {
-  if (link.route === "/") {
-    return route.path === "/";
+const isLinkActive = (link: NavLink): boolean => {
+  if (link.route === '/') {
+    return route.path === '/';
   }
-
   if (route.path === link.route) {
     return true;
   }
-
-  if (route.path.startsWith(link.route + "/")) {
+  if (route.path.startsWith(`${link.route}/`)) {
     return true;
   }
-
   if (link.children) {
     return link.children.some(child =>
         route.path === child.route ||
-        route.path.startsWith(child.route + "/")
+        route.path.startsWith(`${child.route}/`)
     );
   }
-
   return false;
 };
+
+const handleResize = (): void => {
+  isDesktop.value = window.innerWidth >= 768;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+});
 </script>
+
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
-
-
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: #bfdbfe;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #93c5fd;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #93c5fd;
 }
-
 * {
   scrollbar-width: thin;
   scrollbar-color: #93c5fd #bfdbfe;
 }
-
-
 .sidebar-content::-webkit-scrollbar {
   width: 6px;
 }
-
 .sidebar-content::-webkit-scrollbar-track {
   background: #93c5fd;
 }
-
 .sidebar-content::-webkit-scrollbar-thumb {
   background: #93c5fd;
   border-radius: 3px;
 }
-
-.sidebar-content::-webkit-scrollbar-thumb:hover {
-  background: #93c5fd;
-}
-
 .sidebar-content {
   scrollbar-width: thin;
   scrollbar-color: #3b82f6 #93c5fd;
 }
-
 .user-profile-dropdown::-webkit-scrollbar {
   width: 4px;
 }
-
 .user-profile-dropdown::-webkit-scrollbar-track {
-  background: #bfdbfe; /* bg-blue-200 */
+  background: #bfdbfe;
 }
-
 .user-profile-dropdown::-webkit-scrollbar-thumb {
-  background: #93c5fd; /* bg-blue-300 */
+  background: #93c5fd;
   border-radius: 2px;
 }
-
 .user-profile-dropdown {
   scrollbar-width: thin;
-  scrollbar-color: #93c5fd #bfdbfe; /* blue-300 / blue-200 */
+  scrollbar-color: #93c5fd #bfdbfe;
 }
+
 </style>
