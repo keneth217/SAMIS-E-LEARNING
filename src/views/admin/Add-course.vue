@@ -1,6 +1,6 @@
 // AddVideo.vue
 <template>
-  <div class="max-w-md mx-auto bg-white rounded-sm shadow-md overflow-hidden">
+  <div class="max-w-md mx-auto bg-white dark:bg-gray-900 dark:text-white dark:border-2 dark:border-primary-100 rounded-sm shadow-md overflow-hidden">
     <div class="bg-blue-600 px-4 py-3">
       <h2 class="text-white font-semibold text-lg">ADD NEW VIDEO</h2>
     </div>
@@ -43,51 +43,51 @@
 
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+          <label class="form-labels">Title</label>
           <input
               v-model="form.title"
               type="text"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="form-input"
               placeholder="Enter video title"
           >
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <label class="form-labels">Description</label>
           <textarea
               v-model="form.description"
               rows="3"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="form-input"
               placeholder="Enter video description"
           ></textarea>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Video URL (Optional)</label>
+          <label class="form-labels">Video URL (Optional)</label>
           <input
               v-model="form.videoUrl"
               type="url"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="form-input"
               placeholder="Enter video URL"
           >
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Video Length (minutes)</label>
+          <label class="form-labels">Video Length (minutes)</label>
           <input
               v-model="form.length"
               type="number"
               min="1"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="form-input"
               placeholder="Enter video length"
           >
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Teacher</label>
+          <label class="form-labels">Teacher</label>
           <select
               v-model="form.teacher"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="form-input"
           >
             <option value="" disabled selected>Select teacher</option>
             <option v-for="teacher in teachers" :key="teacher.id" :value="teacher.id">
@@ -97,10 +97,10 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Grade/Class</label>
+          <label class="form-labels">Grade/Class</label>
           <select
               v-model="form.grade"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="form-input"
           >
             <option value="" disabled selected>Select grade</option>
             <option v-for="grade in grades" :key="grade.id" :value="grade.id">
@@ -110,11 +110,11 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Course</label>
+          <label class="form-labels">Course</label>
           <select
               v-model="form.course"
               :disabled="!form.grade"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
+              class="form-input"
           >
             <option value="" disabled selected>Select a course</option>
             <option v-for="course in filteredCourses" :key="course.id" :value="course.id">
@@ -124,11 +124,11 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+          <label class="form-labels ">Topic</label>
           <select
               v-model="form.topic"
               :disabled="!form.course"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
+              class="form-input"
           >
             <option value="" disabled selected>Select a topic</option>
             <option v-for="topic in filteredTopics" :key="topic.id" :value="topic.id">
