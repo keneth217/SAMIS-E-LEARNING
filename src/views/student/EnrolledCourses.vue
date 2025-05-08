@@ -1,8 +1,8 @@
 <template>
-  <div class=" shadow-sm rounded-md p-6 bg-white">
-    <h1 class="text-2xl font-bold mb-6 text-gray-800">Enrolled Courses</h1>
+  <div class=" shadow-sm rounded-md p-6 bg-white dark:bg-gray-700">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Enrolled Courses</h1>
     <div class="mb-8">
-      <h2 class="text-xl font-semibold mb-4 text-gray-700">Current Courses and Progress</h2>
+      <h2 class="text-xl font-semibold mb-4 text-gray-700  dark:text-white">Current Courses and Progress</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
 
