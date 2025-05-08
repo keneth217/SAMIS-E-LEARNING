@@ -1,15 +1,16 @@
 <template>
   <div class="mx-auto  w-full">
-    <div class=" p-4 mb-6">
-      <div class="aspect-w-16     aspect-h-9 relative">
-        <iframe
-            class="absolute inset-0 w-full h-full rounded-lg shadow-lg"
-            src="https://www.youtube.com/embed/PkZNo7MFNFg"
+    <div class="p-4 mb-6">
+      <div class="relative video-container">
+        <video
+            class="w-full h-full rounded-lg shadow-lg object-cover"
+            src="@/assets/video/grade7_math_4.mp4"
             title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-            allowfullscreen>
-        </iframe>
+            controls
+        playsinline
+        >
+
+        </video>
       </div>
     </div>
 
@@ -17,8 +18,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 ">
       <div class="lg:col-span-2">
         <div class="mb-6">
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ course.title }}</h1>
-          <div class="flex flex-wrap items-center text-sm text-gray-600 gap-4">
+          <h1 class="text-3xl font-bold text-gray-900 mb-2 dark:text-white">{{ course.title }}</h1>
+          <div class="flex flex-wrap items-center text-sm text-gray-600 dark:text-gray-300 gap-4">
             <span class="flex items-center">
               <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
@@ -37,8 +38,8 @@
 
         <div class="prose max-w-none mb-8">
           <h2 class="text-xl font-semibold mb-4">About This Course</h2>
-          <p class="text-gray-700 mb-4">{{ course.description }}</p>
-          <p class="text-gray-700">{{ course.longDescription }}</p>
+          <p class="text-gray-700  dark:text-gray-400 mb-4">{{ course.description }}</p>
+          <p class="text-gray-700 dark:text-gray-400 ">{{ course.longDescription }}</p>
         </div>
 
         <div class="bg-blue-50 rounded-lg p-6 mb-8">
@@ -166,14 +167,11 @@ const toggleModule = (index) => {
 </script>
 
 <style scoped>
-.aspect-w-16 {
+.video-container{
   position: relative;
-  height: 0;
   overflow: hidden;
-}
-
-.aspect-h-9 {
-  height: 400px;
+  height: 500px;
   width: 100%;
 }
+
 </style>
