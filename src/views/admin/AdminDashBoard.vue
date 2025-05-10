@@ -4,7 +4,7 @@
   <div class="h-full">
     <div class="flex flex-col md:flex-row bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 dark:border-primary-100 dark:border-2 rounded-lg shadow-lg">
       <div :class="isSidebarCollapsed ? 'w-16' : 'w-60'"
-           class="sidebar-content bg-blue-800 dark:bg-gray-800 text-white hidden md:block">
+           class="sidebar-content ">
         <div class="mt-20">
           <hr class="border-0 border-t border-white dark:border-gray-600"/>
         </div>
@@ -231,6 +231,11 @@ const links = ref<NavLink[]>([
     label: 'Courses',
     icon: 'AcademicCapIcon',
     route: '/admin/courses',
+  },
+  {
+    label: 'Teachers',
+    icon: 'CogIcon',
+    route: '/admin/teachers',
   },
 ]);
 
