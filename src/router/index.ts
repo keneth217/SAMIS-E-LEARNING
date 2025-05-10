@@ -14,6 +14,7 @@ import EnrolledCourses from '@/views/student/EnrolledCourses.vue'
 // Shared views
 import HomeView from '../views/HomeView.vue'
 import ViewCourseDetails from "@/views/student/ViewCourseDetails.vue";
+import Teachers from "@/views/admin/Teachers.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,14 @@ const router = createRouter({
                     component: CourseContent,
                     meta: {
                         title: 'Manage Courses'
+                    }
+                },
+                {
+                    path: 'teachers',
+                    name: 'admin.teachers',
+                    component: Teachers,
+                    meta: {
+                        title: 'Manage Teachers'
                     }
                 },
                 {
