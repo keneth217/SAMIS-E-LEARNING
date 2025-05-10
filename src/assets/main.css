@@ -70,7 +70,7 @@
 
 .sidebar-content {
     @apply transition-all duration-300 outline-none border-none cursor-pointer bg-blue-300
-    shadow-md h-full fixed top-0 left-0 z-40 font-serif overflow-y-auto
+    shadow-md h-full fixed top-0 left-0 z-40 font-serif overflow-y-auto  dark:bg-gray-800 text-white hidden md:block
 }
 
 .sidebar-lists {
