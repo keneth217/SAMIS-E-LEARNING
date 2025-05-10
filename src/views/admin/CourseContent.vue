@@ -1,15 +1,12 @@
-
 <template>
-
-
   <div class="h-full">
-    <div class="max-w-6xl mx-auto bg-white  dark:bg-gray-700 dark:text-white rounded-sm shadow-md overflow-hidden">
-      <div class="bg-blue-600 dark:text-white  px-4 py-3 flex justify-between items-center">
-        <h2 class="text-white  font-semibold text-lg">COURSE CONTENT</h2>
-        <div class="flex space-x-2">
+    <div class="max-w-6xl mx-auto bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+      <div class="bg-blue-50 dark:bg-gray-800 px-6 py-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
+        <h2 class="text-gray-800 dark:text-white font-bold text-xl tracking-wider">COURSE CONTENT</h2>
+        <div class="flex space-x-3 ">
           <select
               v-model="selectedGrade"
-              class="px-3 py-1 rounded text-sm dark:bg-gray-700 dark:text-white"
+              class="px-4 py-2 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
           >
             <option value="">All Grades</option>
             <option v-for="grade in grades" :key="grade.id" :value="grade.id">
@@ -18,7 +15,7 @@
           </select>
           <select
               v-model="selectedCourse"
-              class="px-3 py-1 rounded text-sm dark:bg-gray-700 dark:text-white"
+              class="px-4 py-2 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
           >
             <option value="">All Courses</option>
             <option v-for="course in filteredCourses" :key="course.id" :value="course.id">
@@ -28,74 +25,76 @@
         </div>
       </div>
 
-      <div class="p-6  dark:text-white ">
-
+      <div class="p-6 ">
         <div v-if="selectedCourse && currentCourse" class="mb-8">
-          <h3 class="text-xl font-bold text-gray-800 mb-3">Course Syllabus: {{ currentCourse.name }}</h3>
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h4 class="font-medium text-gray-700 mb-2">Topics Covered:</h4>
-            <ul class="list-disc list-inside space-y-1">
-              <li v-for="topic in courseTopics" :key="topic.id">{{ topic.name }}</li>
+          <h3 class="text-xl font-bold text-blue-600 dark:text-blue-400 mb-4">Course Syllabus: {{ currentCourse.name }}</h3>
+          <div class="bg-gray-50 dark:bg-gray-800 p-5 rounded-xl border border-gray-200 dark:border-gray-700">
+            <h4 class="font-medium text-blue-600 dark:text-blue-400 mb-3">Topics Covered:</h4>
+            <ul class="space-y-2">
+              <li v-for="topic in courseTopics" :key="topic.id" class="flex items-center">
+                <div class="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 mr-3"></div>
+                <span>{{ topic.name }}</span>
+              </li>
             </ul>
           </div>
         </div>
 
         <!-- Videos Section -->
         <div>
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <h3 class="text-xl font-bold text-blue-600 dark:text-blue-400">
               {{ selectedCourse ? `Videos for ${currentCourse?.name}` : 'All Course Videos' }}
             </h3>
-            <div class="flex items-center">
+            <div class="flex items-center w-full md:w-auto">
               <input
                   v-model="searchTerm"
                   type="text"
                   placeholder="Search videos"
-                  class="form-input"
+                  class="w-full md:w-64 px-4 py-2 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
               >
             </div>
           </div>
 
-          <div v-if="filteredVideos.length === 0" class="text-center py-8 text-gray-500">
+          <div v-if="filteredVideos.length === 0" class="text-center py-12 text-gray-400 dark:text-gray-500">
             No videos found. Try adjusting your search or filters.
           </div>
 
-          <div v-else class="space-y-4">
+          <div v-else class="space-y-5">
             <div v-for="video in filteredVideos" :key="video.id"
-                 class="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <div class="flex">
-                <div class="bg-gray-200  w-48 h-32 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none"
-                       viewBox="0 0 24 24"
-                       stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                </div>
-                <div class="p-4 flex-1">
-                  <div class="flex justify-between">
-                    <h4 class="font-medium text-lg text-gray-800 dark:text-white">{{ video.title }}</h4>
-                    <span class="text-sm text-gray-500 dark:text-white">{{ video.length }} min</span>
+                 class="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-md transition-all duration-300 bg-white dark:bg-gray-800">
+              <div class="flex flex-col md:flex-row">
+                <div class="bg-gray-100 dark:bg-gray-700 min-w-48 h-40 flex items-center justify-center relative overflow-hidden group">
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="bg-blue-100 dark:bg-blue-900 rounded-full w-16 h-16 flex items-center justify-center group-hover:bg-blue-200 dark:group-hover:bg-blue-800 transition-all duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
                   </div>
-                  <p class="text-gray-600 text-sm mt-1 dark:text-gray-300">{{ video.description }}</p>
-                  <div class="mt-3 flex justify-between items-center">
-                    <div class="flex items-center">
-                      <div class="bg-blue-100 text-blue-800  text-xs px-2 py-1 rounded">
+                </div>
+                <div class="p-5 flex-1">
+                  <div class="flex justify-between items-start">
+                    <h4 class="font-medium text-lg text-gray-800 dark:text-white">{{ video.title }}</h4>
+                    <span class="text-sm text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-700">{{ video.length }} min</span>
+                  </div>
+                  <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">{{ video.description }}</p>
+                  <div class="mt-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <div class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-200 dark:border-blue-700">
                         {{ findTopicName(video.topic) }}
                       </div>
-                      <span class="mx-2 text-gray-400 dark:text-white">|</span>
-                      <div class="text-xs text-gray-500 dark:text-white">
+                      <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center">
+                        <span class="inline-block h-4 w-4 rounded-full bg-blue-500 dark:bg-blue-600 mr-2"></span>
                         {{ findTeacherName(video.teacher) }}
                       </div>
                     </div>
-                    <button
-                        @click="watchVideo(video)"
-                        class="text-sm px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    <router-link
+                        to="/student/course-details"
+                        class="text-sm px-5 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-300 shadow-md text-center"
                     >
-                      Watch
-                    </button>
+                      Watch Now
+                    </router-link>
                   </div>
                 </div>
               </div>
@@ -244,15 +243,33 @@ const findTeacherName = (teacherId) => {
   return teacher ? teacher.name : 'Unknown Teacher';
 };
 
-const watchVideo = (video) => {
-  console.log('Watching video:', video);
-  alert(`Now playing: ${video.title}`);
-  // Implement video playing functionality here
-};
-
-// In a real app, we would fetch data from an API
 onMounted(() => {
   console.log('Component mounted');
   // fetchData();
 });
 </script>
+
+<style scoped>
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.5) rgba(59, 130, 246, 0.1);
+}
+</style>
