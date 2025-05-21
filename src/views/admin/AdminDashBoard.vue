@@ -28,7 +28,7 @@
 
       <div class="flex-1 flex flex-col transition-all duration-300 w-full">
         <header
-            class="header-container bg-white dark:bg-gray-700 shadow"
+            class="header-container  dark:bg-gray-700 shadow"
             :class="{
             'md:left-16 md:w-[calc(100%-4rem)]': isSidebarCollapsed,
             'md:left-60 md:w-[calc(100%-15rem)]': !isSidebarCollapsed
@@ -108,7 +108,8 @@
           </div>
         </div>
       </div>
-      <div class="fixed bottom-0 left-0 right-0 bg-blue-500 dark:bg-gray-800 text-white md:hidden z-10 mt-10">
+      <div class="fixed bottom-0 left-0 right-0 bg-white text-white dark:bg-gray-800
+      dark:text-black md:hidden z-10 cursor-pointer border-2 border-red-2">
         <div class="flex flex-col">
           <div class="flex justify-around py-2">
             <div
@@ -136,14 +137,14 @@
             </div>
           </div>
           <div
-              class="bg-blue-400 dark:bg-gray-700 transition-all duration-300 overflow-hidden"
+              class="bg-white dark:bg-gray-700 transition-all duration-300 overflow-hidden"
               :class="isMobileMenuOpen ? 'max-h-screen py-2' : 'max-h-0'"
           >
-            <ul class="px-4">
+            <ul class="px-2">
               <li
                   v-for="(link, index) in hiddenMobileLinks"
                   :key="'hidden-'+index"
-                  class="py-3 border-b border-white dark:border-gray-600"
+                  class="py-2 border-b border-white dark:border-gray-600"
                   @click="navigateTo(link.route)"
               >
                 <div class="flex items-center">
@@ -228,14 +229,20 @@ const links = ref<NavLink[]>([
     route: '/admin',
   },
   {
-    label: 'Courses',
+    label: 'Lessons',
     icon: 'AcademicCapIcon',
-    route: '/admin/courses',
+    route: '/admin/lessons',
   },
   {
     label: 'Teachers',
-    icon: 'CogIcon',
+    icon: 'CreditCardIcon',
     route: '/admin/teachers',
+  },
+
+  {
+    label: 'Users',
+    icon: 'UserCircleIcon',
+    route: '/admin/users-lists',
   },
 ]);
 
