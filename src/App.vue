@@ -1,12 +1,14 @@
 <!-- App.vue -->
 <template>
   <div>
-    <LoadingBar ref="loadingBar"/>
-    <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component"/>
-      </transition>
-    </router-view>
+<!--    <LoadingBar ref="loadingBar"/>-->
+<!--    <router-view v-slot="{ Component }">-->
+<!--      <transition name="fade" mode="out-in">-->
+<!--        <component :is="Component"/>-->
+<!--      </transition>-->
+<!--    </router-view>-->
+
+    <router-view/>
   </div>
 </template>
 
