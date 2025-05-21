@@ -1,17 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router'
-
-
 import AdminDashBoard from '@/views/admin/AdminDashBoard.vue'
 import MyDashBoard from '@/views/admin/MyDashBoard.vue'
 import AddCourse from '@/views/admin/Add-course.vue'
 import CourseContent from '@/views/admin/CourseContent.vue'
-
-
 import StudentDashboard from '@/views/student/StudentDashboard.vue'
 import StudentDashboardData from '@/views/student/StudentDashboardData.vue'
 import EnrolledCourses from '@/views/student/EnrolledCourses.vue'
-
-
 import HomeView from '../views/HomeView.vue'
 import ViewCourseDetails from "@/views/student/ViewCourseDetails.vue";
 import Teachers from "@/views/admin/Teachers.vue";
@@ -21,7 +15,6 @@ import LoginView from "@/views/admin/LoginView.vue";
 import RegisterView from "@/views/admin/RegisterView.vue";
 import ChangePassword from "@/views/admin/ChangePassword.vue";
 import UsersLists from "@/views/admin/UsersLists.vue";
-import * as path from "node:path";
 import TeacherDashboard from "@/views/teacher/TeacherDashboard.vue";
 
 const router = createRouter({
@@ -39,7 +32,6 @@ const router = createRouter({
                 title: 'Home'
             }
         },
-
         {
             path: '/login',
             name: 'login',
@@ -48,7 +40,6 @@ const router = createRouter({
                 title: 'Authenticate'
             }
         },
-
         {
             path: '/reset-password',
             name: 'reset-password',
@@ -57,7 +48,6 @@ const router = createRouter({
                 title: 'Change Password'
             }
         },
-
         {
             path: '/register',
             name: 'Register',
@@ -130,8 +120,6 @@ const router = createRouter({
                 },
             ]
         },
-
-
         {
             path:'/teachers-dash'
             ,name:'teachers-dashboard',
@@ -189,7 +177,6 @@ const router = createRouter({
                 }
             ]
         },
-        // 404 catch-all route
         {
             path: '/:pathMatch(.*)*',
             redirect: '/home'
