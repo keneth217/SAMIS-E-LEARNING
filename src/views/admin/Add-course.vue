@@ -1,4 +1,3 @@
-// AddVideo.vue
 <template>
   <div class="max-w-md mx-auto bg-white dark:bg-gray-900 dark:text-white dark:border-2 dark:border-primary-100 rounded-sm shadow-md overflow-hidden">
     <div class="bg-blue-600 px-4 py-3">
@@ -6,6 +5,15 @@
     </div>
 
     <div class="p-6">
+      <!-- Success/Error Messages -->
+      <div v-if="successMessage" class="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+        {{ successMessage }}
+      </div>
+      <div v-if="errorMessage" class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+        {{ errorMessage }}
+      </div>
+
+      <!-- File Upload Area -->
       <div
           @dragover.prevent="dragOver = true"
           @dragleave="dragOver = false"
@@ -13,10 +21,8 @@
           :class="{'border-blue-500 bg-blue-50': dragOver, 'border-gray-300': !dragOver}"
           class="border-2 border-dashed rounded-lg p-8 text-center mb-4 cursor-pointer transition-colors"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
-             stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
         </svg>
         <p class="mt-2 text-sm text-gray-600">
           <span class="font-medium text-blue-600">Drag & drop</span> your video file here
@@ -30,17 +36,21 @@
             accept="video/*"
         >
         <button
-            @click="fileInput.value.click()"
+            @click="fileInput?.click()"
             type="button"
             class="mt-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-md text-sm font-medium hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Browse Files
         </button>
-        <p v-if="selectedFile" class="mt-2 text-sm text-green-600">
-          Selected: {{ selectedFile.name }}
+        <p v-if="form.file" class="mt-2 text-sm text-green-600">
+          Selected: {{ (form.file as File).name }}
+        </p>
+        <p v-if="fileError" class="mt-2 text-sm text-red-600">
+          {{ fileError }}
         </p>
       </div>
 
+      <!-- Form Fields -->
       <div class="space-y-4">
         <div>
           <label class="form-labels">Title</label>
@@ -49,7 +59,9 @@
               type="text"
               class="form-input"
               placeholder="Enter video title"
+              required
           >
+          <p v-if="errors.title" class="mt-1 text-sm text-red-600">{{ errors.title }}</p>
         </div>
 
         <div>
@@ -59,97 +71,13 @@
               rows="3"
               class="form-input"
               placeholder="Enter video description"
+              required
           ></textarea>
-        </div>
-
-        <div>
-          <label class="form-labels">Video URL (Optional)</label>
-          <input
-              v-model="form.videoUrl"
-              type="url"
-              class="form-input"
-              placeholder="Enter video URL"
-          >
-        </div>
-
-        <div>
-          <label class="form-labels">Video Length (minutes)</label>
-          <input
-              v-model="form.length"
-              type="number"
-              min="1"
-              class="form-input"
-              placeholder="Enter video length"
-          >
-        </div>
-
-        <div>
-          <label class="form-labels">Teacher</label>
-          <select
-              v-model="form.teacher"
-              class="form-input"
-          >
-            <option value="" disabled selected>Select teacher</option>
-            <option v-for="teacher in teachers" :key="teacher.id" :value="teacher.id">
-              {{ teacher.name }} ({{ teacher.subject }})
-            </option>
-          </select>
-        </div>
-
-        <div>
-          <label class="form-labels">Grade/Class</label>
-          <select
-              v-model="form.grade"
-              class="form-input"
-          >
-            <option value="" disabled selected>Select grade</option>
-            <option v-for="grade in grades" :key="grade.id" :value="grade.id">
-              {{ grade.name }}
-            </option>
-          </select>
-        </div>
-
-        <div>
-          <label class="form-labels">Course</label>
-          <select
-              v-model="form.course"
-              :disabled="!form.grade"
-              class="form-input"
-          >
-            <option value="" disabled selected>Select a course</option>
-            <option v-for="course in filteredCourses" :key="course.id" :value="course.id">
-              {{ course.name }}
-            </option>
-          </select>
-        </div>
-
-        <div>
-          <label class="form-labels ">Topic</label>
-          <select
-              v-model="form.topic"
-              :disabled="!form.course"
-              class="form-input"
-          >
-            <option value="" disabled selected>Select a topic</option>
-            <option v-for="topic in filteredTopics" :key="topic.id" :value="topic.id">
-              {{ topic.name }}
-            </option>
-          </select>
-        </div>
-
-        <div class="flex items-center">
-          <input
-              v-model="form.visibility"
-              id="visibility"
-              type="checkbox"
-              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-          >
-          <label for="visibility" class="ml-2 block text-sm text-gray-700">
-            Make video public
-          </label>
+          <p v-if="errors.description" class="mt-1 text-sm text-red-600">{{ errors.description }}</p>
         </div>
       </div>
 
+      <!-- Form Actions -->
       <div class="mt-6 flex justify-end space-x-3">
         <button
             @click="resetForm"
@@ -160,11 +88,15 @@
         </button>
         <button
             @click="submitForm"
-            :disabled="!formValid"
-            :class="{'opacity-50 cursor-not-allowed': !formValid, 'hover:bg-blue-700': formValid}"
-            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            :disabled="!formValid || isSubmitting"
+            :class="{
+            'opacity-50 cursor-not-allowed': !formValid || isSubmitting,
+            'hover:bg-blue-700': formValid && !isSubmitting
+          }"
+            class="submit-button"
         >
-          Save
+          <span v-if="isSubmitting">Uploading...</span>
+          <span v-else>Save</span>
         </button>
       </div>
     </div>
@@ -172,133 +104,145 @@
 </template>
 
 <script setup lang="ts">
-import {ref, computed, reactive} from 'vue';
+import { ref, computed } from 'vue';
+import type {CreateLessonRequest} from "@/models/Lesson.ts";
+import LessonService from "@/services/LessonService.ts";
 
+
+// Form state
+const form = ref<CreateLessonRequest>({
+  file: null as unknown as File,
+  title: '',
+  description: ''
+});
+
+// UI state
 const dragOver = ref(false);
-const selectedFile = ref(null);
-const fileInput = ref(null);
+const fileInput = ref<HTMLInputElement | null>(null);
+const isSubmitting = ref(false);
+const successMessage = ref<string | null>(null);
+const errorMessage = ref<string | null>(null);
+const fileError = ref<string | null>(null);
 
-const form = reactive({
+// Validation errors
+const errors = ref({
   title: '',
   description: '',
-  videoUrl: '',
-  length: '',
-  teacher: '',
-  grade: '',
-  course: '',
-  topic: '',
-  visibility: true
+  file: ''
 });
 
-const teachers = [
-  {id: 'teacher-1', name: 'Dr. Sarah Johnson', subject: 'Mathematics'},
-  {id: 'teacher-2', name: 'Prof. Michael Chen', subject: 'Computer Science'},
-  {id: 'teacher-3', name: 'Ms. Emily Rodriguez', subject: 'Science'},
-  {id: 'teacher-4', name: 'Mr. David Wilson', subject: 'History'}
-];
-
-const grades = [
-  {id: 'grade-6', name: 'Grade 6'},
-  {id: 'grade-7', name: 'Grade 7'},
-  {id: 'grade-8', name: 'Grade 8'},
-  {id: 'grade-9', name: 'Grade 9'},
-  {id: 'grade-10', name: 'Grade 10'}
-];
-
-const courses = [
-  {id: 'math-6', gradeId: 'grade-6', name: 'Mathematics 6'},
-  {id: 'science-6', gradeId: 'grade-6', name: 'Science 6'},
-  {id: 'math-7', gradeId: 'grade-7', name: 'Mathematics 7'},
-  {id: 'science-7', gradeId: 'grade-7', name: 'Science 7'},
-  {id: 'history-8', gradeId: 'grade-8', name: 'History 8'},
-  {id: 'cs-9', gradeId: 'grade-9', name: 'Computer Science 9'},
-  {id: 'cs-10', gradeId: 'grade-10', name: 'Computer Science 10'}
-];
-
-const topics = [
-  {id: 'algebra', courseId: 'math-6', name: 'Basic Algebra'},
-  {id: 'geometry', courseId: 'math-6', name: 'Geometry Fundamentals'},
-  {id: 'earth-science', courseId: 'science-6', name: 'Earth Science'},
-  {id: 'life-science', courseId: 'science-6', name: 'Life Science'},
-  {id: 'algebra-adv', courseId: 'math-7', name: 'Advanced Algebra'},
-  {id: 'programming', courseId: 'cs-9', name: 'Programming Basics'},
-  {id: 'data-struct', courseId: 'cs-10', name: 'Data Structures'}
-];
-
-const filteredCourses = computed(() => {
-  if (!form.grade) return [];
-  return courses.filter(course => course.gradeId === form.grade);
-});
-
-const filteredTopics = computed(() => {
-  if (!form.course) return [];
-  return topics.filter(topic => topic.courseId === form.course);
-});
-
+// Form validation
 const formValid = computed(() => {
-  return (
-      form.title.trim() !== '' &&
-      form.grade &&
-      form.course &&
-      form.topic &&
-      form.teacher &&
-      form.length &&
-      (selectedFile.value || form.videoUrl.trim() !== '')
-  );
+  return form.value.title.trim() !== '' &&
+      form.value.description.trim() !== '' &&
+      form.value.file !== null;
 });
 
-const handleDrop = (e) => {
+// Handle file drop
+const handleDrop = (e: DragEvent) => {
   dragOver.value = false;
-  const files = e.dataTransfer.files;
-  if (files.length && files[0].type.startsWith('video/')) {
-    selectedFile.value = files[0];
-  } else {
-    alert('Please upload a valid video file');
+  if (!e.dataTransfer?.files.length) return;
+
+  const file = e.dataTransfer.files[0];
+  validateAndSetFile(file);
+};
+
+// Handle file selection
+const handleFileSelect = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  if (!target.files?.length) return;
+
+  const file = target.files[0];
+  validateAndSetFile(file);
+};
+
+// Validate and set the selected file
+const validateAndSetFile = (file: File) => {
+  // Reset previous errors
+  fileError.value = null;
+
+  // Check file type
+  if (!file.type.startsWith('video/')) {
+    fileError.value = 'Please upload a valid video file';
+    return;
+  }
+
+  // Check file size (50MB limit)
+  const MAX_SIZE = 50 * 1024 * 1024; // 50MB
+  if (file.size > MAX_SIZE) {
+    fileError.value = 'File size must be less than 50MB';
+    return;
+  }
+
+  // Set the valid file
+  form.value.file = file;
+};
+
+// Submit the form
+const submitForm = async () => {
+  if (!validateForm()) return;
+
+  isSubmitting.value = true;
+  errorMessage.value = null;
+  successMessage.value = null;
+
+  try {
+    const response = await LessonService.createLesson({
+      file: form.value.file,
+      title: form.value.title,
+      description: form.value.description
+    });
+
+    successMessage.value = response.message;
+    resetForm();
+  } catch (error: any) {
+    errorMessage.value = error.message;
+
+    // Handle field-specific errors from API
+    if (error.errors) {
+      for (const [field, messages] of Object.entries(error.errors)) {
+        if (field in errors.value) {
+          errors.value[field as keyof typeof errors.value] = (messages as string[]).join(', ');
+        }
+      }
+    }
+  } finally {
+    isSubmitting.value = false;
   }
 };
 
-const handleFileSelect = (e) => {
-  const files = e.target.files;
-  if (files.length && files[0].type.startsWith('video/')) {
-    selectedFile.value = files[0];
-  }
-};
+// Validate form fields
+const validateForm = (): boolean => {
+  let isValid = true;
+  errors.value = { title: '', description: '', file: '' };
 
-const submitForm = () => {
-  if (!formValid.value) return;
-
-  const formData = new FormData();
-  if (selectedFile.value) {
-    formData.append('video', selectedFile.value);
+  if (!form.value.title.trim()) {
+    errors.value.title = 'Title is required';
+    isValid = false;
   }
 
-  formData.append('title', form.title);
-  formData.append('description', form.description);
-  formData.append('videoUrl', form.videoUrl);
-  formData.append('length', form.length);
-  formData.append('teacher', form.teacher);
-  formData.append('grade', form.grade);
-  formData.append('course', form.course);
-  formData.append('topic', form.topic);
-  formData.append('visibility', form.visibility);
+  if (!form.value.description.trim()) {
+    errors.value.description = 'Description is required';
+    isValid = false;
+  }
 
-  console.log('Form submitted:', Object.fromEntries(formData));
+  if (!form.value.file) {
+    errors.value.file = 'Video file is required';
+    isValid = false;
+  }
 
-  resetForm();
-  alert('Video uploaded successfully!');
+  return isValid;
 };
 
+// Reset the form
 const resetForm = () => {
-  selectedFile.value = null;
-  form.title = '';
-  form.description = '';
-  form.videoUrl = '';
-  form.length = '';
-  form.teacher = '';
-  form.grade = '';
-  form.course = '';
-  form.topic = '';
-  form.visibility = true;
+  form.value = {
+    file: null as unknown as File,
+    title: '',
+    description: ''
+  };
+  errors.value = { title: '', description: '', file: '' };
+  fileError.value = null;
 
   if (fileInput.value) {
     fileInput.value.value = '';
@@ -306,3 +250,16 @@ const resetForm = () => {
 };
 </script>
 
+<style scoped>
+.form-labels {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+}
+
+.form-input {
+  @apply mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white;
+}
+
+.submit-button {
+  @apply px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+</style>
