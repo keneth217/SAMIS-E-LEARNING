@@ -69,7 +69,7 @@
 }
 
 .sidebar-content {
-    @apply transition-all duration-300 outline-none border-none cursor-pointer bg-blue-300
+    @apply transition-all duration-300 outline-none border-none cursor-pointer bg-white border-l-2 border-gray-300
     shadow-md h-full fixed top-0 left-0 z-40 font-serif overflow-y-auto  dark:bg-gray-800 text-white hidden md:block
 }
 
@@ -78,15 +78,15 @@
 }
 
 .sidebar-links {
-    @apply flex items-center cursor-pointer hover:text-white
+    @apply flex items-center cursor-pointer hover:text-white hover:bg-gray-400 p-2 rounded-md
 }
 
 .header-container {
-    @apply bg-blue-400 md:bg-blue-300 font-serif  text-white h-16 fixed z-10 w-full transition-all duration-300
+    @apply bg-white   text-black dark:bg-black dark:text-white h-16 fixed z-10 w-full transition-all duration-300
 }
 
 .main-content {
-    @apply flex-1 min-h-[calc(100vh-4rem)] transition-all duration-300 bg-gray-100 shadow-sm overflow-y-auto fixed top-16 bottom-0 w-full overflow-auto;
+    @apply flex-1 min-h-[calc(100vh-4rem)] transition-all duration-300 bg-gray-200 shadow-sm overflow-y-auto fixed top-16 bottom-0 w-full overflow-auto;
 }
 
 .user-profile {
