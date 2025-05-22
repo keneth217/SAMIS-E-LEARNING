@@ -186,6 +186,7 @@ import {
   SignalIcon
 } from '@heroicons/vue/24/outline';
 import ThemeToggle from '@/views/ThemeToggle.vue';
+import {useAuthStore} from "@/stores/AuthStore.ts";
 
 interface NavLink {
   label: string;
@@ -216,7 +217,14 @@ const iconComponents: Record<string, Component> = {
   FolderMinusIcon
 };
 
+
+const authStore = useAuthStore();
+
+
+
 const handleLogout = (): void => {
+
+  authStore.logout();
 };
 
 const router = useRouter();
