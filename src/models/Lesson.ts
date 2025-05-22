@@ -1,4 +1,3 @@
-
 export interface CreateLessonRequest {
     file: File;
     title: string;
@@ -33,6 +32,18 @@ export interface ListLessonsResponse {
 }
 
 export interface DeleteLessonResponse {
+
+
+    lessonID: number;
+    title: string,
+    description: string,
+    filename: string,
+    destination: string,
+    deleted: boolean,
+    createdByName: string,
+    createdOn: string
+
+
     success: boolean;
     message: string;
     lesson: LessonDAO | null;
