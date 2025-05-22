@@ -10,7 +10,6 @@ import type {
 
 
 class LessonService {
-    // Create a new lesson with video
     async createLesson(request: CreateLessonRequest): Promise<VideoUploadResponse> {
         try {
             const formData = new FormData();
@@ -25,7 +24,6 @@ class LessonService {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     },
-
                     timeout: 60000
                 }
             );
@@ -39,15 +37,11 @@ class LessonService {
             throw apiError;
         }
     }
-
     async listLessons(): Promise<LessonDAO> {
         try {
             const response = await apiClient.post<LessonDAO>('/lessons/list');
-
-            console.log(response.data ,"in service lesson");
+            console.log(response.data, "in service lesson");
             return response.data;
-
-
         } catch (error: any) {
             const apiError: ApiError = {
                 success: false,
@@ -56,7 +50,6 @@ class LessonService {
             throw apiError;
         }
     }
-
     async getLessonById(lessonID: number): Promise<LessonDAO> {
         try {
             const response = await apiClient.post<LessonDAO>(`/lessons/find/${lessonID}`);
@@ -69,14 +62,14 @@ class LessonService {
             throw apiError;
         }
     }
-
-
-    async deleteLesson(request: DeleteLessonRequest): Promise<DeleteLessonResponse> {
+    async deleteLesson(lessonID: number): Promise<DeleteLessonResponse> {
         try {
             const response = await apiClient.post<DeleteLessonResponse>(
                 '/lessons/delete',
-                request
+                {lessonID}
             );
+
+            console.log(response.data, "in service lesson");
             return response.data;
         } catch (error: any) {
             const apiError: ApiError = {
@@ -86,14 +79,10 @@ class LessonService {
             throw apiError;
         }
     }
-
-     getVideoStreamUrl(filename: string): string {
+    getVideoStreamUrl(filename: string): string {
         return `${apiClient.defaults.baseURL}/videos/stream/${encodeURIComponent(filename)}`;
     }
-
-
-
-     async streamVideoAsBlob(filename: string): Promise<Blob> {
+    async streamVideoAsBlob(filename: string): Promise<Blob> {
         const response = await apiClient.get(
             `/videos/stream/${encodeURIComponent(filename)}`,
             {
@@ -106,6 +95,4 @@ class LessonService {
         return response.data;
     }
 }
-
-
 export default new LessonService();
